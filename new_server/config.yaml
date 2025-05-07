@@ -1,0 +1,37 @@
+MODEL_LISTEN_PORT: 5000
+MODEL_IP: 172.20.10.2
+
+CLUSTER_IP: 172.20.10.11
+CLUSTER_PORT: 5678
+SAVE_PORT: 5001
+GET_PORT: 5002
+
+TIME_PASS: 1.0
+
+DB_IP: localhost
+DB_LISTEN_PORT: 3306
+DB_USER: root
+DB_PASSWORD: "0000"
+DB_NAME: tracking_db
+DB_TABLE: Info
+
+# CREATE DATABASE tracking_db;
+# USE tracking_db;
+# CREATE TABLE Info (
+#     id INT PRIMARY KEY AUTO_INCREMENT,
+#     pre_coords POINT,
+#     coords POINT,
+#     speed_kph FLOAT,
+#     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+# );
+
+# INSERT INTO Info (id, pre_coords, coords, speed_kph)
+# VALUES (
+#     1,
+#     POINT(121.5650, 25.0328),   -- pre_coords: 台北 101
+#     POINT(121.5655, 25.0332),   -- coords: 台北附近
+#     30.5                        -- speed_kph: 假設速度為 30.5 km/h
+# );
+
+
+# SELECT * FROM Info
