@@ -51,9 +51,10 @@ void loop()
 {
   // This sketch displays information every time a new sentence is correctly encoded.
   while (ss.available() > 0)
-    if (gps.encode(ss.read()))
+    if (gps.encode(ss.read())) {
       process_Info();
-      delay(1000);  // 單位為毫秒（milliseconds），1000 ms = 1 秒
+      delay(delay_time);  // 單位為毫秒（milliseconds），1000 ms = 1 秒
+    }
 
 
 //   if (millis() > 5000 && gps.charsProcessed() < 10)
@@ -86,7 +87,7 @@ void send() {
     WiFiClient client;
     if (client.connect(serverAddress, port)) {
         Serial.print("Connected to server, sending: ");
-        Serial.println("Sent: " + s);
+        Serial.println(s);
         client.stop();
         Serial.println("→ Sent and disconnected");
     }

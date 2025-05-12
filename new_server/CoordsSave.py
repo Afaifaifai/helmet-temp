@@ -90,6 +90,7 @@ class CoordsSave:
         with conn:
             try:
                 line = self._readline(conn).strip()         # 'lat,lon'
+                print(f'Received: {line}')
                 lat, lon = map(float, line.split(","))
                 speed = self._update_speed_db(lat, lon, record_id=1)
                 conn.sendall(f"OK,{speed:.2f}kph\n".encode())
