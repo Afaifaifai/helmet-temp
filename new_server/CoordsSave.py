@@ -88,7 +88,7 @@ class CoordsSave:
     # ---------- 每個客戶端 ----------
     def _handle_client(self, conn: socket.socket, addr):
         with conn:
-            try:
+            # try:
                 line = self._readline(conn).strip()         # 'lat,lon'
                 print(f'[GPS-Received]: {line}')
                 L = [float(x) for x in line.split(",")]
@@ -96,9 +96,9 @@ class CoordsSave:
                 # lat, lon = map(float, line.split(","))
                 speed = self._update_speed_db(lat, lon, record_id=1)
                 conn.sendall(f"OK,{speed:.2f}kph\n".encode())
-            except Exception as e:
-                print(f"[GPS-ERROR] {e}")
-                conn.sendall(b"ERROR\n")
+            # except Exception as e:
+            #     print(f"[GPS-ERROR] {e}")
+            #     conn.sendall(b"ERROR\n")
 
     # ---------- 計算並更新資料庫 ----------
     def _update_speed_db(self, lat, lon, record_id=1):
