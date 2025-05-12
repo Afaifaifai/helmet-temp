@@ -108,7 +108,7 @@ class CoordsSave:
             # 1. 取先前座標
             cur.execute(
                 "SELECT ST_X(coords), ST_Y(coords) "
-                "FROM %s WHERE id=%s", (self.db_table, record_id)
+                f"FROM {self.db_table} WHERE id=%s", (record_id,)
             )
             row = cur.fetchone()
             if row and None not in row:
@@ -119,12 +119,12 @@ class CoordsSave:
 
             # 2. 更新 pre_coords, coords, speed_kph
             cur.execute(
-                "UPDATE %s "
+                f"UPDATE {self.db_table} "
                 "SET pre_coords = coords, "
                 "coords = ST_GeomFromText(%s), "
                 "speed_kph = %s "
                 "WHERE id = %s",
-                (self.db_table, f"POINT({lon} {lat})", speed_kph, record_id)
+                (f"POINT({lon} {lat})", speed_kph, record_id)
             )
             cur.close()
             return speed_kph
