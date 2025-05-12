@@ -111,6 +111,7 @@ class CoordsSave:
                 f"FROM {self.db_table} WHERE id=%s", (record_id,)
             )
             row = cur.fetchone()
+            print("[GPS] Set from DB successfully.")
             if row and None not in row:
                 lat_old, lon_old = row[1], row[0]
                 speed_kph = haversine_m(lat_old, lon_old, lat, lon, self.time_pass)
