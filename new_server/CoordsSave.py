@@ -91,7 +91,7 @@ class CoordsSave:
             try:
                 line = self._readline(conn).strip()         # 'lat,lon'
                 print(f'[GPS-Received]: {line}')
-                L = line.split(",")
+                L = [float(x) for x in line.split(",")]
                 lat, lon = L[0], L[1]
                 # lat, lon = map(float, line.split(","))
                 speed = self._update_speed_db(lat, lon, record_id=1)
