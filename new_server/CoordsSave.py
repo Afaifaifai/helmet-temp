@@ -90,8 +90,10 @@ class CoordsSave:
         with conn:
             try:
                 line = self._readline(conn).strip()         # 'lat,lon'
-                print(f'Received: {line}')
-                lat, lon = map(float, line.split(","))
+                print(f'[GPS-Received]: {line}')
+                L = line.split(",")
+                lat, lon = L[0], L[1]
+                # lat, lon = map(float, line.split(","))
                 speed = self._update_speed_db(lat, lon, record_id=1)
                 conn.sendall(f"OK,{speed:.2f}kph\n".encode())
             except Exception as e:

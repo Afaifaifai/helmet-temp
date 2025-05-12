@@ -66,7 +66,6 @@ void loop()
 
 void process_Info()
 {
-  String s = "";
   Serial.print(F("Location: ")); 
   if (gps.location.isValid())
   {
@@ -88,6 +87,7 @@ void send() {
     if (client.connect(serverAddress, port)) {
         Serial.print("Connected to server, sending: ");
         Serial.println(s);
+        client.print(s);
         client.stop();
         Serial.println("→ Sent and disconnected");
     }
