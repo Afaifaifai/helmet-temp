@@ -43,6 +43,7 @@ class CoordsSave:
             database=db_name, autocommit=True
         )
         self._db_lock = threading.Lock()
+        print("MySQL connected successfully.")
 
         self.db_table = db_table
         self.time_pass = time_pass
