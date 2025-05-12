@@ -108,7 +108,7 @@ class CoordsSave:
             # 1. 取先前座標
             cur.execute(
                 "SELECT ST_X(coords), ST_Y(coords) "
-                f"FROM {self.db_table} WHERE id=%s", (record_id,)
+                "FROM %s WHERE id=%s", (self.db_table, record_id)
             )
             row = cur.fetchone()
             if row and None not in row:
