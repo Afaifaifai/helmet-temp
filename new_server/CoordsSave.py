@@ -124,7 +124,7 @@ class CoordsSave:
                 "coords = ST_GeomFromText(%s), "
                 "speed_kph = %s "
                 "WHERE id = %s",
-                self.db_table, (f"POINT({lon} {lat})", speed_kph, record_id)
+                (self.db_table, f"POINT({lon} {lat})", speed_kph, record_id)
             )
             cur.close()
             return speed_kph
