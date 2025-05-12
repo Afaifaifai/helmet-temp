@@ -127,6 +127,7 @@ class CoordsSave:
                 (f"POINT({lon} {lat})", speed_kph, record_id)
             )
             cur.close()
+            print("[GPS] Send to DB successfully.")
             return speed_kph
 
     # ---------- 讀到換行 ----------
