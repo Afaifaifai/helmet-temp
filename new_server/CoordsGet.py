@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     query_srv = CoordsGet(
         listen_host="0.0.0.0",
-        listen_port=cfg["QUERY_PORT"],       # 例如 5002
+        listen_port=cfg["GET_PORT"],       # 例如 5002
         db_host=cfg["DB_IP"], db_user=cfg["DB_USER"],
         db_pass=cfg["DB_PASSWORD"], db_name=cfg["DB_NAME"],
         db_table=cfg["DB_TABLE"]
