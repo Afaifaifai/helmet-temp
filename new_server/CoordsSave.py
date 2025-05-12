@@ -6,6 +6,7 @@ import yaml
 import math
 import mysql.connector
 from contextlib import closing
+import random
 
 
 # ---------- 小工具：計算兩點平均速度（km/h） ----------
@@ -125,7 +126,7 @@ class CoordsSave:
                 "coords = ST_GeomFromText(%s), "
                 "speed_kph = %s "
                 "WHERE id = %s",
-                (f"POINT({lon} {lat})", speed_kph, record_id)
+                (f"POINT({lon} {lat})", random.random(), record_id)
             )
             cur.close()
             print("[GPS] Send to DB successfully.")

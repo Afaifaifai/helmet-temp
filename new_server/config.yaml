@@ -38,6 +38,4 @@ DB_TABLE: Info
 
 # SELECT * FROM Info
 
-# UPDATE Info
-# SET speed_kph=30.4
-# WHERE id=1;
+# UPDATE Info SET speed_kph=30.63 WHERE id=1;
