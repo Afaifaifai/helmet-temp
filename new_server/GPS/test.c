@@ -1,6 +1,7 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 #include <WiFi.h>
+#include <LiquidCrystal.h> // 納入LCD顯示模組的輔助函式庫
 
 /*
    This sample sketch demonstrates the normal use of a TinyGPS++ (TinyGPSPlus) object.
@@ -14,7 +15,8 @@ const char* password = "icanlabst333";      // 替換為您的 WiFi 密碼
 const char* serverAddress = "172.24.16.12"; // 伺服器地址（不含 http://）
 int port = 5001; // HTTP 為 80，HTTPS 為 443
 
-static const int TXPin = 4, RXPin = 3;
+LiquidCrystal lcd(2, 3, 4, 5, 6, 7); // 定義LCD物件對應Arduino的腳位
+static const int TXPin = 1, RXPin = 0;
 static const uint32_t GPSBaud = 9600;
 
 // The TinyGPS++ object
@@ -29,14 +31,16 @@ int delay_time = 1000;
 void setup()
 {
   Serial.begin(115200);
+  lcd.begin(16, 2); // 初始化LCD物件的格式為16字 × 2行
 
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print("Attempting to connect to WiFi network: ");
     Serial.println(ssid);
     WiFi.begin(ssid, password);
-    delay(5000);
+    delay(2000);
   }
   Serial.println("Wifi connected.");
+  display("Wifi connected.", "");
 
   ss.begin(GPSBaud);
 
@@ -50,11 +54,13 @@ void setup()
 void loop()
 {
   // This sketch displays information every time a new sentence is correctly encoded.
-  while (ss.available() > 0)
+  while (ss.available() > 0) {
     if (gps.encode(ss.read())) {
       process_Info();
+      display("Lat: "+lat, "Lon: "+lon);
       delay(delay_time);  // 單位為毫秒（milliseconds），1000 ms = 1 秒
     }
+  }
 
 
 //   if (millis() > 5000 && gps.charsProcessed() < 10)
@@ -94,4 +100,12 @@ void send() {
     else {
         Serial.println("Cannot connect to server.");
     }
+}
+
+void display(String line1, String line2) {
+  lcd.clear(); // 清除LCD螢幕
+  lcd.setCursor(0, 0); // 游標設到LCD第1字 × 第1行
+  lcd.print(line1); // LCD顯示出字串"Hello World!"
+  lcd.setCursor(0, 1); // 游標設到LCD第1字 × 第2行
+  lcd.print(line2); // LCD顯示出字串"I am LCD "
 }
