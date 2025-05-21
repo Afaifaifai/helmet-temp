@@ -15,8 +15,8 @@ const char* password = "icanlabst333";      // 替換為您的 WiFi 密碼
 const char* serverAddress = "172.24.16.12"; // 伺服器地址（不含 http://）
 int port = 5001; // HTTP 為 80，HTTPS 為 443
 
-LiquidCrystal lcd(2, 3, 4, 5, 6, 7); // 定義LCD物件對應Arduino的腳位
-static const int TXPin = 1, RXPin = 0;
+LiquidCrystal lcd(12, 11, 4, 5, 6, 7); // 定義LCD物件對應Arduino的腳位
+static const int TXPin = 2, RXPin = 3;
 static const uint32_t GPSBaud = 9600;
 
 // The TinyGPS++ object
@@ -25,7 +25,7 @@ TinyGPSPlus gps;
 // The serial connection to the GPS device
 SoftwareSerial ss(RXPin, TXPin);
 
-String lat = "0.0", lon = "0.0", s = "";
+String lat = "120.6001", lon = "24.1790", s = "";
 int delay_time = 1000;
 
 void setup()
@@ -41,6 +41,7 @@ void setup()
   }
   Serial.println("Wifi connected.");
   display("Wifi connected.", "");
+  delay(delay_time);
 
   ss.begin(GPSBaud);
 
@@ -53,6 +54,14 @@ void setup()
 
 void loop()
 {
+
+  // 讀取 GPS 資料流
+  while (ss.available()) {
+    char c = ss.read();
+    gps.encode(c);
+    Serial.write(c);  // 顯示原始 GPS 資料（例如 $GPGGA...）
+  }
+
   // This sketch displays information every time a new sentence is correctly encoded.
   while (ss.available() > 0) {
     if (gps.encode(ss.read())) {
@@ -73,15 +82,20 @@ void loop()
 void process_Info()
 {
   Serial.print(F("Location: ")); 
-  if (gps.location.isValid())
+  // if (gps.location.isValid())
+  if (gps.location.isValid() && gps.location.isUpdated())
   {
-    lat = String(gps.location.lat(), 4);
-    lon = String(gps.location.lng(), 4);
+    lat = String(gps.location.lat(), 6);
+    lon = String(gps.location.lng(), 6);
   }
   else
   {
-    lat = "120.6001";
-    lon = "24.1790";
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Waiting GPS...");
+      lcd.setCursor(0, 1);
+      lcd.print("Signal:");
+      lcd.print(gps.satellites.value());  // 顯示衛星數量
   }
   s = lat + "," + lon;
   Serial.println(s);
